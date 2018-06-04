@@ -1,0 +1,47 @@
+.forms {
+    // overflow: hidden;
+    width: 60%;
+    margin: 60px auto 0 auto;
+
+    &-input {
+        float: left;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid black;
+        margin-bottom: 20px;
+        padding: 10px 0 10px 5px;
+        
+        &:focus {
+            outline: none;
+            border-bottom: 1px solid $theme-primary;
+        }
+    }
+
+    &-toggle {
+        border: none;
+        color: $theme-secondary;
+
+        &:hover {
+            color: $theme-secondary-dark;
+            cursor: pointer;
+        }
+    }
+
+    &-submit {
+        padding: 10px 20px;
+        border-radius: 10px;
+        float: right;
+        margin: 0 auto;
+        background-color: $theme-primary;
+        color: white;
+        border: none;
+
+        &:hover {
+            background-color: $theme-primary-dark;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

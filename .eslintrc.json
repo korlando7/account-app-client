@@ -1,0 +1,10 @@
+{
+    "extends": "airbnb",
+    "plugins": ["react"],
+    "rules": {
+        "jsx-quotes": 0
+    },
+    "env": {
+        "browser": true
+    }
+}
