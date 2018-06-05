@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import debounce from 'lodash.debounce';
 import FaCheck from 'react-icons/lib/fa/check';
 import FaTimes from 'react-icons/lib/fa/times-circle';
-import { createUser, setError, toggleLogin, searchUser, setSuccess } from '../stores/actions';
+import { createUser, setAlertMessage, toggleLogin, searchUser } from '../stores/actions';
 
 class Register extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.searchUser = debounce(this.props.searchUser, 250);
 
     this.state = {
       user: {
@@ -47,7 +49,7 @@ class Register extends Component {
           password: '',
         },
       });
-      this.props.setError('Please fill out form correctly');
+      this.props.setAlertMessage('error', 'Please fill out form correctly');
     }
   }
 
@@ -67,7 +69,8 @@ class Register extends Component {
   handleUsername(e) {
     this.handleChange(e);
     if (e.target.value) {
-      this.props.searchUser(e.target.value);
+      const { value } = e.target;
+      this.searchUser(value);
     }
   }
 
@@ -146,8 +149,7 @@ class Register extends Component {
 
 const mapDispatchToProps = dispatch => ({
   createUser: bindActionCreators(createUser, dispatch),
-  setError: bindActionCreators(setError, dispatch),
-  setSuccess: bindActionCreators(setSuccess, dispatch),
+  setAlertMessage: bindActionCreators(setAlertMessage, dispatch),
   toggleLogin: bindActionCreators(toggleLogin, dispatch),
   searchUser: bindActionCreators(searchUser, dispatch),
 });
@@ -159,7 +161,7 @@ const mapStateToProps = state => ({
 
 Register.propTypes = {
   createUser: PropTypes.func.isRequired,
-  setError: PropTypes.func.isRequired,
+  setAlertMessage: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,
   searchUser: PropTypes.func.isRequired,
   userValid: PropTypes.bool.isRequired,
