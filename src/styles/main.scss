@@ -1,9 +1,16 @@
 @import './theme/colors.scss';
-@import './partials/forms.scss';
+@import './partials/layout.scss';
 @import './partials/nav.scss';
-@import './partials/error.scss';
+@import './partials/forms.scss';
+@import './partials/sidebar.scss';
+@import './partials/message.scss';
 
 * {
     padding: 0;
     margin: 0;
+    font-family: Helvetica, sans-serif;
+}
+
+html, #app, #main {
+    height: 100vh;
 }
