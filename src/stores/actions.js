@@ -3,20 +3,12 @@ import * as actionTypes from './actionTypes';
 
 const api = new Api();
 // UI ACTIONS
-export const setError = errorMessage => (dispatch) => {
-  dispatch({ type: actionTypes.SET_ERROR, errorMessage });
+export const setAlertMessage = (type, message) => (dispatch) => {
+  dispatch({ type: actionTypes.SET_ALERT, data: { type, message } });
 };
 
-export const closeError = () => (dispatch) => {
-  dispatch({ type: actionTypes.CLOSE_ERROR });
-};
-
-export const setSuccess = successMessage => (dispatch) => {
-  dispatch({ type: actionTypes.SET_SUCCESS, successMessage });
-};
-
-export const closeSuccess = () => (dispatch) => {
-  dispatch({ type: actionTypes.CLOSE_SUCCESS });
+export const closeAlertMessage = () => (dispatch) => {
+  dispatch({ type: actionTypes.CLOSE_ALERT });
 };
 
 // export const setLoading = loading => (dispatch) => {
@@ -35,16 +27,17 @@ export const setToLogin = () => (dispatch) => {
 export const createUser = body => (dispatch) => {
   api.createUser(body)
     .then((res) => {
-      if (res.statusCode > 299) {
-        dispatch(setError(res.message));
+      if (res.statusCode >= 200 && res.statusCode <= 299) {
+        dispatch({
+          type: actionTypes.SET_USER,
+        });
+        dispatch(setAlertMessage('success', res.message));
+      } else {
+        dispatch(setAlertMessage('error', res.message));
       }
-      dispatch({
-        type: actionTypes.SET_USER,
-      });
-      dispatch(setSuccess(res.message));
     })
     .catch((err) => {
-      dispatch(setError(err));
+      dispatch(setAlertMessage('error', err));
     });
 };
 
@@ -56,29 +49,30 @@ export const searchUser = username => (dispatch) => {
       } else if (res.statusCode === 400) {
         dispatch({ type: actionTypes.SEARCH_USER, userValid: false });
       } else {
-        dispatch(setError(res.message));
+        dispatch(setAlertMessage('error', res.message));
       }
     })
     .catch((err) => {
-      dispatch(setError(err));
+      dispatch(setAlertMessage('error', err));
     });
 };
 
 export const authenticateUser = body => (dispatch) => {
   api.authenticateUser(body)
     .then((res) => {
-      if (res.statusCode > 299) {
-        dispatch(setError(res.message));
-      } else {
+      console.log(res.statusCode);
+      if (res.statusCode >= 200 && res.statusCode <= 299) {
         dispatch({
           type: actionTypes.AUTHENTICATE_USER,
           authenticated: true,
           user: res.userData,
         });
+      } else {
+        dispatch(setAlertMessage('error', res.message));
       }
     })
     .catch((err) => {
-      dispatch(setError(err));
+      dispatch(setAlertMessage('error', err));
     });
 };
 

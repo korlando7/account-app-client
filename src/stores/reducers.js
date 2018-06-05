@@ -10,10 +10,9 @@ const userInitialState = {
 const uiInitialState = {
   isLoading: false,
   isLogin: true,
-  error: false,
-  errorMessage: '',
-  success: false,
-  successMessage: '',
+  alert: false,
+  alertType: 'error',
+  alertMessage: '',
 };
 
 export const user = (state = userInitialState, action) => {
@@ -39,23 +38,15 @@ export const ui = (state = uiInitialState, action) => {
       return Object.assign({}, state, { isLogin: !state.isLogin });
     case actionTypes.SET_TO_LOGIN:
       return Object.assign({}, state, { isLogin: true });
-    case actionTypes.SET_ERROR:
+    case actionTypes.SET_ALERT:
       return Object.assign({}, state, {
-        error: true,
-        errorMessage: action.errorMessage,
+        alert: true,
+        alertType: action.data.type,
+        alertMessage: action.data.message,
       });
-    case actionTypes.CLOSE_ERROR:
+    case actionTypes.CLOSE_ALERT:
       return Object.assign({}, state, {
-        error: false,
-      });
-    case actionTypes.SET_SUCCESS:
-      return Object.assign({}, state, {
-        success: true,
-        successMessage: action.successMessage,
-      });
-    case actionTypes.CLOSE_SUCCESS:
-      return Object.assign({}, state, {
-        success: false,
+        alert: false,
       });
     default:
       return state;
