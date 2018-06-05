@@ -4,30 +4,31 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Login from './login';
-import ErrorMessage from './error';
-import SuccessMessage from './success';
+import AlertMessage from './alertMessage';
 import Sidebar from './sidebar';
+import Loader from './loader';
 import { logoutUser, setToLogin } from '../stores/actions';
 
 const Layout = props => (
   <Router>
     <div id='main'>
+      {props.isLoading ? <Loader /> : null}
       <nav id='main-nav'>
         <ul>
           <li>
             <Link to="/" href='/'>Home</Link>
           </li>
-          <li>
-            {props.authenticated
-              ? <Link to="/" href='/' onClick={props.logoutUser}>Logout</Link>
-              : <Link to="/login" href='/login' onClick={props.setToLogin}>Login</Link>
-            }
-          </li>
+          {props.authenticated
+            ? [
+              <li key='account'><Link to="/account" href='/'>Account</Link></li>,
+              <li key='logout'><Link to="/" href='/' onClick={props.logoutUser}>Logout</Link></li>,
+            ]
+            : <li><Link to="/login" href='/login' onClick={props.setToLogin}>Login</Link></li>
+          }
         </ul>
       </nav>
       <Sidebar />
-      {props.error ? <ErrorMessage /> : null }
-      {props.success ? <SuccessMessage /> : null }
+      {props.alert ? <AlertMessage type={props.alertType} /> : null }
       {props.authenticated
         ? <div className='content'>WELCOME!</div>
         : <Route exact path='/login' component={Login} />
@@ -42,17 +43,19 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  error: state.ui.error,
-  success: state.ui.success,
+  alert: state.ui.alert,
+  alertType: state.ui.alertType,
   authenticated: state.user.authenticated,
+  isLoading: state.ui.isLoading,
 });
 
 Layout.propTypes = {
-  error: PropTypes.bool.isRequired,
-  success: PropTypes.bool.isRequired,
+  alert: PropTypes.bool.isRequired,
+  alertType: PropTypes.string.isRequired,
   authenticated: PropTypes.bool.isRequired,
   logoutUser: PropTypes.func.isRequired,
   setToLogin: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 
