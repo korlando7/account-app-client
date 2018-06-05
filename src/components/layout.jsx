@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Login from './login';
 import ErrorMessage from './error';
+import SuccessMessage from './success';
+import Sidebar from './sidebar';
 import { logoutUser, setToLogin } from '../stores/actions';
 
 const Layout = props => (
   <Router>
-    <div>
-      <nav>
+    <div id='main'>
+      <nav id='main-nav'>
         <ul>
           <li>
             <Link to="/" href='/'>Home</Link>
@@ -23,9 +25,11 @@ const Layout = props => (
           </li>
         </ul>
       </nav>
+      <Sidebar />
       {props.error ? <ErrorMessage /> : null }
+      {props.success ? <SuccessMessage /> : null }
       {props.authenticated
-        ? <div>WELCOME!</div>
+        ? <div className='content'>WELCOME!</div>
         : <Route exact path='/login' component={Login} />
       }
     </div>
@@ -39,11 +43,13 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   error: state.ui.error,
+  success: state.ui.success,
   authenticated: state.user.authenticated,
 });
 
 Layout.propTypes = {
   error: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
   authenticated: PropTypes.bool.isRequired,
   logoutUser: PropTypes.func.isRequired,
   setToLogin: PropTypes.func.isRequired,
