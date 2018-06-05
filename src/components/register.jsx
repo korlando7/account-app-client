@@ -6,6 +6,7 @@ import debounce from 'lodash.debounce';
 import FaCheck from 'react-icons/lib/fa/check';
 import FaTimes from 'react-icons/lib/fa/times-circle';
 import { createUser, setAlertMessage, toggleLogin, searchUser } from '../stores/actions';
+import { validateEmail, validateUsername, validatePassword} from '../helper/validation';
 
 class Register extends Component {
   constructor(props) {
@@ -79,7 +80,17 @@ class Register extends Component {
       firstName, lastName, email, username, password,
     } = this.state.user;
 
-    if (!(firstName && lastName && email && username.length > 2 && password)) return false;
+    if (!(firstName && lastName && email && username && password)) return false;
+    if (!(firstName.length > 2 && lastName.length > 2 && username.length > 2 && password.length > 6)) return false;
+
+    const userValid = validateUsername(username);
+    const emailValid = validateEmail(email);
+    const passwordValid = validatePassword(password);
+
+    if (!(userValid && emailValid)) return false;
+    if (!passwordValid.valid) {
+      return false;
+    }
     return true;
   }
 
