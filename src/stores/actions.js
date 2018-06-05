@@ -42,7 +42,6 @@ export const createUser = body => (dispatch) => {
 export const searchUser = username => (dispatch) => {
   api.searchUser(username)
     .then((res) => {
-      console.log(res);
       if (res.statusCode === 200) {
         dispatch({ type: actionTypes.SEARCH_USER, userValid: true });
       } else if (res.statusCode === 400) {
