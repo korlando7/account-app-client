@@ -1,0 +1,24 @@
+#main-nav {
+    border-bottom: 1px solid lightgray;
+
+    ul {
+        padding: 0 20px;
+        float: right;
+        list-style-type: none;
+
+        li {
+            float: left;
+            margin: 0 25px;
+            line-height: calc(100vh / 12);
+            
+            a {
+                text-decoration: none;
+                color: $theme-primary;
+
+                &:active {
+                    color: $theme-primary-dark;
+                }
+            }
+        }
+    }
+}
