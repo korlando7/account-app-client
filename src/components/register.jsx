@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import FaCheck from 'react-icons/lib/fa/check';
+import FaTimes from 'react-icons/lib/fa/times-circle';
 import { createUser, setError, toggleLogin, searchUser } from '../stores/actions';
 
 class Register extends Component {
@@ -11,7 +13,6 @@ class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.validateForm = this.validateForm.bind(this);
-    this.toggleLoginRegister = this.toggleLoginRegister.bind(this);
 
     this.state = {
       user: {
@@ -75,13 +76,8 @@ class Register extends Component {
       firstName, lastName, email, username, password,
     } = this.state.user;
 
-    if (!(firstName && lastName && email && username && password)) return false;
+    if (!(firstName && lastName && email && username.length > 2 && password)) return false;
     return true;
-  }
-
-  toggleLoginRegister(e) {
-    e.preventDefault();
-    this.props.toggleLogin();
   }
 
   render() {
@@ -112,6 +108,12 @@ class Register extends Component {
           name='email'
           type='email'
         />
+        {(this.props.userValid && user.email.length > 3)
+          ? <FaCheck className='forms-icon forms-check' /> : null
+        }
+        {(!this.props.userValid && user.email.length > 1)
+          ? <FaTimes className='forms-icon forms-error' /> : null
+        }
         <input
           className='forms-input'
           placeholder='Username'
@@ -120,6 +122,12 @@ class Register extends Component {
           name='username'
           type='text'
         />
+        {(this.props.userValid && user.username.length > 3)
+          ? <FaCheck className='forms-icon forms-check' /> : null
+        }
+        {(!this.props.userValid && user.username.length > 1)
+          ? <FaTimes className='forms-icon forms-error' /> : null
+        }
         <input
           className='forms-input'
           placeholder='Password'
@@ -128,7 +136,7 @@ class Register extends Component {
           name='password'
           type='password'
         />
-        <p>Already a member? <span className='forms-toggle' onClick={this.toggleLoginRegister}>log in</span> here</p>
+        <p>Already a member? <span className='forms-toggle' onClick={this.props.toggleLogin}>log in</span> here</p>
         <button className='forms-submit'onClick={this.handleRegister}>Register</button>
       </form>
     );
@@ -145,6 +153,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   isLogin: state.ui.isLogin,
+  userValid: state.user.userValid,
 });
 
 Register.propTypes = {
@@ -152,6 +161,7 @@ Register.propTypes = {
   setError: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,
   searchUser: PropTypes.func.isRequired,
+  userValid: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
