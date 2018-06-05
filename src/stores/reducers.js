@@ -22,6 +22,8 @@ export const user = (state = userInitialState, action) => {
       return Object.assign({}, state, { authenticated: true });
     case actionTypes.LOGOUT:
       return Object.assign({}, state, userInitialState);
+    case actionTypes.SEARCH_USER:
+      return Object.assign({}, state, { userValid: action.userValid });
     default:
       return state;
   }
