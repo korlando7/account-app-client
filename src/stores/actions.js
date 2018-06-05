@@ -11,6 +11,14 @@ export const closeError = () => (dispatch) => {
   dispatch({ type: actionTypes.CLOSE_ERROR });
 };
 
+export const setSuccess = successMessage => (dispatch) => {
+  dispatch({ type: actionTypes.SET_SUCCESS, successMessage });
+};
+
+export const closeSuccess = () => (dispatch) => {
+  dispatch({ type: actionTypes.CLOSE_SUCCESS });
+};
+
 // export const setLoading = loading => (dispatch) => {
 //   dispatch({ type: actionTypes.SET_LOADING, loading });
 // };
@@ -33,6 +41,7 @@ export const createUser = body => (dispatch) => {
       dispatch({
         type: actionTypes.SET_USER,
       });
+      dispatch(setSuccess(res.message));
     })
     .catch((err) => {
       dispatch(setError(err));

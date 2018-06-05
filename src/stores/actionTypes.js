@@ -5,6 +5,8 @@ export const LOGOUT = 'LOGOUT';
 
 export const SET_ERROR = 'SET_ERROR';
 export const CLOSE_ERROR = 'CLOSE_ERROR';
+export const SET_SUCCESS = 'SET_SUCCESS';
+export const CLOSE_SUCCESS = 'CLOSE_SUCCESS';
 export const SET_LOADING = 'SET_LOADING';
 export const TOGGLE_LOGIN = 'TOGGLE_LOGIN';
 export const SET_TO_LOGIN = 'SET_TO_LOGIN';

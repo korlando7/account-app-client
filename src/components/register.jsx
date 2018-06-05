@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FaCheck from 'react-icons/lib/fa/check';
 import FaTimes from 'react-icons/lib/fa/times-circle';
-import { createUser, setError, toggleLogin, searchUser } from '../stores/actions';
+import { createUser, setError, toggleLogin, searchUser, setSuccess } from '../stores/actions';
 
 class Register extends Component {
   constructor(props) {
@@ -147,6 +147,7 @@ class Register extends Component {
 const mapDispatchToProps = dispatch => ({
   createUser: bindActionCreators(createUser, dispatch),
   setError: bindActionCreators(setError, dispatch),
+  setSuccess: bindActionCreators(setSuccess, dispatch),
   toggleLogin: bindActionCreators(toggleLogin, dispatch),
   searchUser: bindActionCreators(searchUser, dispatch),
 });

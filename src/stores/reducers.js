@@ -12,6 +12,8 @@ const uiInitialState = {
   isLogin: true,
   error: false,
   errorMessage: '',
+  success: false,
+  successMessage: '',
 };
 
 export const user = (state = userInitialState, action) => {
@@ -45,6 +47,15 @@ export const ui = (state = uiInitialState, action) => {
     case actionTypes.CLOSE_ERROR:
       return Object.assign({}, state, {
         error: false,
+      });
+    case actionTypes.SET_SUCCESS:
+      return Object.assign({}, state, {
+        success: true,
+        successMessage: action.successMessage,
+      });
+    case actionTypes.CLOSE_SUCCESS:
+      return Object.assign({}, state, {
+        success: false,
       });
     default:
       return state;
