@@ -10,7 +10,6 @@ class Login extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.toggleLoginRegister = this.toggleLoginRegister.bind(this);
 
     this.state = {
       user: {
@@ -44,11 +43,6 @@ class Login extends Component {
     });
   }
 
-  toggleLoginRegister(e) {
-    e.preventDefault();
-    this.props.toggleLogin();
-  }
-
   render() {
     return (
       <div className='form'>
@@ -70,7 +64,7 @@ class Login extends Component {
               type='password'
               onChange={this.handleChange}
             />
-            <p>Not a member? <span className='forms-toggle' onClick={this.toggleLoginRegister}>register</span> here</p>
+            <p>Not a member? <span className='forms-toggle' onClick={this.props.toggleLogin}>register</span> here</p>
             <button className='forms-submit' onClick={this.handleSubmit}>Login</button>
           </form>
           : <Register />
@@ -95,7 +89,6 @@ Login.propTypes = {
   authenticateUser: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,
   isLogin: PropTypes.bool.isRequired,
-  authenticated: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
