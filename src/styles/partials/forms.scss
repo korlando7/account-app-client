@@ -28,7 +28,7 @@
     }
 
     &-submit {
-        padding: 10px 20px;
+        padding: 10px 25px;
         border-radius: 10px;
         float: right;
         margin: 0 auto;
@@ -43,5 +43,26 @@
         &:focus {
             outline: none;
         }
+    }
+
+    &-icon {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        float: right;
+        z-index: 10;
+        margin-top: -55px;
+    }
+
+    &-check {
+        color: $success;
+    }
+
+    &-error {
+        color: $error;
+    }
+
+    p {
+        float: left;
     }
 }
