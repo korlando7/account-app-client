@@ -5,6 +5,7 @@ const userInitialState = {
   user: {},
   authenticated: false,
   userValid: false,
+  emailValid: false,
 };
 
 const uiInitialState = {
@@ -25,6 +26,8 @@ export const user = (state = userInitialState, action) => {
       return Object.assign({}, state, userInitialState);
     case actionTypes.SEARCH_USER:
       return Object.assign({}, state, { userValid: action.userValid });
+    case actionTypes.SEARCH_EMAIL:
+      return Object.assign({}, state, { emailValid: action.emailValid });
     default:
       return state;
   }

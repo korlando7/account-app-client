@@ -5,17 +5,18 @@ import { bindActionCreators } from 'redux';
 import debounce from 'lodash.debounce';
 import FaCheck from 'react-icons/lib/fa/check';
 import FaTimes from 'react-icons/lib/fa/times-circle';
-import { createUser, setAlertMessage, toggleLogin, searchUser } from '../stores/actions';
-import { validateEmail, validateUsername, validatePassword} from '../helper/validation';
+import { createUser, setAlertMessage, toggleLogin, searchUser, searchEmail } from '../stores/actions';
+import { validateEmail, validateUsername, validatePassword } from '../helper/validation';
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleUsername = this.handleUsername.bind(this);
+    this.handleValidity = this.handleValidity.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.searchUser = debounce(this.props.searchUser, 250);
+    this.searchEmail = debounce(this.props.searchEmail, 250);
 
     this.state = {
       user: {
@@ -67,11 +68,12 @@ class Register extends Component {
     });
   }
 
-  handleUsername(e) {
+  handleValidity(e) {
+    const { name, value } = e.target;
     this.handleChange(e);
     if (e.target.value) {
-      const { value } = e.target;
-      this.searchUser(value);
+      if (name === 'email' && validateEmail(value)) this.searchEmail(value);
+      else this.searchUser(value);
     }
   }
 
@@ -118,28 +120,28 @@ class Register extends Component {
           className='forms-input'
           placeholder='Email'
           value={user.email}
-          onChange={this.handleChange}
+          onChange={this.handleValidity}
           name='email'
           type='email'
         />
-        {(this.props.userValid && user.email.length > 3)
+        {(this.props.emailValid && user.email.length > 3)
           ? <FaCheck className='forms-icon forms-check' /> : null
         }
-        {(!this.props.userValid && user.email.length > 1)
+        {(!this.props.emailValid && user.email.length > 1)
           ? <FaTimes className='forms-icon forms-error' /> : null
         }
         <input
           className='forms-input'
           placeholder='Username'
           value={user.username}
-          onChange={this.handleUsername}
+          onChange={this.handleValidity}
           name='username'
           type='text'
         />
-        {(this.props.userValid && user.username.length > 3)
+        {(this.props.userValid && user.username.length > 2)
           ? <FaCheck className='forms-icon forms-check' /> : null
         }
-        {(!this.props.userValid && user.username.length > 1)
+        {(!this.props.userValid && user.username)
           ? <FaTimes className='forms-icon forms-error' /> : null
         }
         <input
@@ -163,11 +165,13 @@ const mapDispatchToProps = dispatch => ({
   setAlertMessage: bindActionCreators(setAlertMessage, dispatch),
   toggleLogin: bindActionCreators(toggleLogin, dispatch),
   searchUser: bindActionCreators(searchUser, dispatch),
+  searchEmail: bindActionCreators(searchEmail, dispatch),
 });
 
 const mapStateToProps = state => ({
   isLogin: state.ui.isLogin,
   userValid: state.user.userValid,
+  emailValid: state.user.emailValid,
 });
 
 Register.propTypes = {
@@ -175,7 +179,9 @@ Register.propTypes = {
   setAlertMessage: PropTypes.func.isRequired,
   toggleLogin: PropTypes.func.isRequired,
   searchUser: PropTypes.func.isRequired,
+  searchEmail: PropTypes.func.isRequired,
   userValid: PropTypes.bool.isRequired,
+  emailValid: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

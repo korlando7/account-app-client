@@ -57,10 +57,25 @@ export const searchUser = username => (dispatch) => {
     });
 };
 
+export const searchEmail = email => (dispatch) => {
+  api.searchEmail(email)
+    .then((res) => {
+      if (res.statusCode === 200) {
+        dispatch({ type: actionTypes.SEARCH_EMAIL, emailValid: true });
+      } else if (res.statusCode === 400) {
+        dispatch({ type: actionTypes.SEARCH_EMAIL, emailValid: false });
+      } else {
+        dispatch(setAlertMessage('error', res.message));
+      }
+    })
+    .catch((err) => {
+      dispatch(setAlertMessage('error', err));
+    });
+};
+
 export const authenticateUser = body => (dispatch) => {
   api.authenticateUser(body)
     .then((res) => {
-      console.log(res.statusCode);
       if (res.statusCode >= 200 && res.statusCode <= 299) {
         dispatch({
           type: actionTypes.AUTHENTICATE_USER,

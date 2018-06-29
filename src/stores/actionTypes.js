@@ -1,5 +1,6 @@
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 export const SEARCH_USER = 'SEARCH_USER';
+export const SEARCH_EMAIL = 'SEARCH_EMAIL';
 export const SET_USER = 'SET_USER';
 export const LOGOUT = 'LOGOUT';
 

@@ -43,7 +43,11 @@ class Api {
   }
 
   searchUser(username) {
-    return this.get(`user/signup/${username}`);
+    return this.get(`user/signup/username/${username}`);
+  }
+
+  searchEmail(email) {
+    return this.get(`user/signup/email/${email}`);
   }
 
   authenticateUser(body) {
