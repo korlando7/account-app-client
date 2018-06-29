@@ -13,7 +13,7 @@ class Register extends Component {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleValidity = this.handleValidity.bind(this);
+    this.handleAvailability = this.handleAvailability.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.searchUser = debounce(this.props.searchUser, 250);
     this.searchEmail = debounce(this.props.searchEmail, 250);
@@ -68,12 +68,12 @@ class Register extends Component {
     });
   }
 
-  handleValidity(e) {
+  handleAvailability(e) {
     const { name, value } = e.target;
     this.handleChange(e);
     if (e.target.value) {
       if (name === 'email' && validateEmail(value)) this.searchEmail(value);
-      else this.searchUser(value);
+      else if (name === 'username' && validateUsername(value)) this.searchUser(value);
     }
   }
 
@@ -120,7 +120,7 @@ class Register extends Component {
           className='forms-input'
           placeholder='Email'
           value={user.email}
-          onChange={this.handleValidity}
+          onChange={this.handleAvailability}
           name='email'
           type='email'
         />
@@ -134,7 +134,7 @@ class Register extends Component {
           className='forms-input'
           placeholder='Username'
           value={user.username}
-          onChange={this.handleValidity}
+          onChange={this.handleAvailability}
           name='username'
           type='text'
         />
